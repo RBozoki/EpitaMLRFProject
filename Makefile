@@ -34,8 +34,8 @@ raw_data:
 	@echo "Dataset ready."
 
 ## Make Dataset
-data: requirements
-	$(PYTHON_INTERPRETER) src/data/make_dataset.py data/raw data/processed
+data:
+	$(PYTHON_INTERPRETER) src/data/make_dataset.py data/raw/cifar-10-batches-py data/processed
 
 ## Delete all compiled Python files
 clean:
