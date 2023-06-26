@@ -1,4 +1,4 @@
-.PHONY: clean data lint requirements sync_data_to_s3 sync_data_from_s3
+.PHONY: clean data lint requirements sync_data_to_s3 sync_data_from_s3 raw_data
 
 #################################################################################
 # GLOBALS                                                                       #
@@ -24,6 +24,14 @@ endif
 requirements: test_environment
 	$(PYTHON_INTERPRETER) -m pip install -U pip setuptools wheel
 	$(PYTHON_INTERPRETER) -m pip install -r requirements.txt
+
+## Download raw data
+raw_data:
+	@echo "Downloading cifar-10 dataset..."
+	@wget -P data/raw/ http://www.cs.toronto.edu/~kriz/cifar-10-python.tar.gz
+	@echo "Unpacking cifar-10 dataset..."
+	@tar -xzf data/raw/cifar-10-python.tar.gz -C data/raw/
+	@echo "Dataset ready."
 
 ## Make Dataset
 data: requirements
