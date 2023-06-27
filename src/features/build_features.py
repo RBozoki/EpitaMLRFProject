@@ -19,28 +19,21 @@ plt.imshow(image)
 plt.show()
 
 import cv2
+from skimage.feature import hog
+from skimage import exposure
 
+image = image.astype('uint8')
 image_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
-# Initialiser le descripteur HOG.
-win_size = (32, 32)
-block_size = (16, 16)
-block_stride = (8, 8)
-cell_size = (8, 8)
-nbins = 9
-deriv_aperture = 1
-win_sigma = -1.
-histogram_norm_type = 0
-l2_hys_threshold = 0.2
-gamma_correction = 1
-nlevels = 64
-signed_gradients = True
+# Calculer le descripteur HOG et obtenir une visualisation
+hog_descriptor, hog_image = hog(image_gray, orientations=8, pixels_per_cell=(16, 16),
+                                cells_per_block=(1, 1), visualize=True)
 
-hog = cv2.HOGDescriptor(win_size, block_size, block_stride, cell_size, nbins, deriv_aperture, win_sigma, histogram_norm_type, l2_hys_threshold, gamma_correction, nlevels, signed_gradients)
+# Augmenter le contraste de l'image HOG en utilisant l'égalisation d'histogramme
+hog_image_rescaled = exposure.rescale_intensity(hog_image, in_range=(0, 10))
 
-# Calculer le descripteur HOG.
-hog_descriptor = hog.compute(image_gray)
-
-print(hog_descriptor)
+# Afficher l'image HOG
+plt.imshow(hog_image_rescaled, cmap=plt.cm.gray)
+plt.show()
 
 #%%
