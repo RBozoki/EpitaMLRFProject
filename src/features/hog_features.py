@@ -85,7 +85,7 @@ for file_path in data_files:
 
         hog_descriptor = hog(image_gray, orientations=8, pixels_per_cell=(16, 16),
                              cells_per_block=(1, 1), visualize=False)
-        hog_descriptors.append(hog_descriptor)
+        hog_descriptors.append(hog_descriptor.tolist())
 
     df["hog_descriptor"] = hog_descriptors
 
