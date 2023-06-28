@@ -9,7 +9,7 @@ import ast
 
 df = pd.read_csv("../../data/processed/data_batch_1.csv")
 
-first_image = df.iloc[0]["data"]
+first_image = df.iloc[1]["data"]
 first_image = ast.literal_eval(first_image)
 print(len(first_image))
 image = np.reshape(first_image, (32, 32, 3), order='F')
@@ -18,6 +18,8 @@ image = np.transpose(image, (1, 0, 2))
 # Afficher l'image
 plt.imshow(image)
 plt.show()
+
+#%%
 
 import cv2
 from skimage.feature import hog

@@ -4,7 +4,9 @@ import glob
 import numpy as np
 import pandas as pd
 import seaborn as sns
-from matplotlib import pyplot as plt
+import matplotlib.pyplot as plt
+import matplotlib
+matplotlib.use('TkAgg')
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score, confusion_matrix
 
@@ -28,7 +30,7 @@ hog_descriptors = np.array(hog_descriptors)
 labels = np.array(labels)
 
 # Initialiser et entrainer le modèle kNN
-knn = KNeighborsClassifier(n_neighbors=200)
+knn = KNeighborsClassifier(n_neighbors=80)
 knn.fit(hog_descriptors, labels)
 
 # Charger le fichier data_batch_test.csv
@@ -50,13 +52,21 @@ y_pred = knn.predict(hog_descriptors_test)
 accuracy = accuracy_score(labels_test, y_pred)
 print(f"La précision du modèle kNN est : {accuracy}")
 
-#%%
+
+import matplotlib.pyplot as plt
+import matplotlib
+matplotlib.use('TkAgg')
+
+print("hello")
 cm = confusion_matrix(labels_test, y_pred)
 
-# Afficher la matrice de confusion
+# Convertir la matrice de confusion en pourcentages
+cm_percentage = cm / np.sum(cm, axis=1)[:, np.newaxis]
+
+# Afficher la matrice de confusion en pourcentages
 plt.figure(figsize=(10, 10))
-sns.heatmap(cm, annot=True, fmt="d")
-plt.title('Matrice de confusion')
+sns.heatmap(cm_percentage, annot=True, fmt=".2f", cmap='Blues')
+plt.title('Matrice de confusion en pourcentage')
 plt.ylabel('Vraie classe')
 plt.xlabel('Classe prédite')
 plt.show()
@@ -69,6 +79,7 @@ accuracy_scores = [0.2323, 0.2375, 0.2647, 0.272, 0.2872, 0.2999, 0.3051, 0.3089
 
 # Tracer l'accuracy en fonction de k
 plt.plot(k_values, accuracy_scores)
+plt.ylim([0, 0.5])
 plt.xlabel('Nombre de voisins (k)')
 plt.ylabel('Accuracy')
 plt.title('Accuracy en fonction de k pour le modèle k-NN')
