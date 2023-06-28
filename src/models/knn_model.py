@@ -28,7 +28,7 @@ hog_descriptors = np.array(hog_descriptors)
 labels = np.array(labels)
 
 # Initialiser et entrainer le modèle kNN
-knn = KNeighborsClassifier(n_neighbors=3)
+knn = KNeighborsClassifier(n_neighbors=200)
 knn.fit(hog_descriptors, labels)
 
 # Charger le fichier data_batch_test.csv
@@ -50,6 +50,7 @@ y_pred = knn.predict(hog_descriptors_test)
 accuracy = accuracy_score(labels_test, y_pred)
 print(f"La précision du modèle kNN est : {accuracy}")
 
+#%%
 cm = confusion_matrix(labels_test, y_pred)
 
 # Afficher la matrice de confusion
@@ -62,24 +63,9 @@ plt.show()
 #%%
 
 
-accuracy_scores = []
-
 # Liste des valeurs de k pour lesquelles nous voulons tester la performance
-k_values = [1, 3, 5, 7, 10, 15, 20, 30]
-
-for k in k_values:
-    # Initialiser le modèle k-NN avec le nombre actuel de voisins
-    knn = KNeighborsClassifier(n_neighbors=k)
-
-    # Entrainer le modèle
-    knn.fit(hog_descriptors, labels)
-
-    # Faire des prédictions sur l'ensemble de test
-    y_pred = knn.predict(hog_descriptors_test)
-
-    # Calculer l'accuracy et l'ajouter à la liste des scores d'accuracy
-    accuracy = accuracy_score(labels_test, y_pred)
-    accuracy_scores.append(accuracy)
+k_values = [1, 3, 5, 7, 10, 15, 20, 30, 40, 80, 200]
+accuracy_scores = [0.2323, 0.2375, 0.2647, 0.272, 0.2872, 0.2999, 0.3051, 0.3089, 0.3132, 0.315, 0.3009]
 
 # Tracer l'accuracy en fonction de k
 plt.plot(k_values, accuracy_scores)
