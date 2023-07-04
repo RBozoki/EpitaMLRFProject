@@ -44,7 +44,18 @@ clean_raw_data:
 
 ## Make Dataset
 data:
+	@printf "\033[1;32m📦 Creating datasets...\033[0m\n"
 	$(PYTHON_INTERPRETER) src/data/make_dataset.py data/raw/cifar-10-batches-py data/processed
+	@printf "\033[1;32m✅ Done.\033[0m\n"
+
+clean_data:
+	@printf "\033[1;31m🗑️ Removing data...\033[0m\n"
+	@rm data/processed/data_batch_*.csv
+	@printf "\033[1;32m✅ Done.\033[0m\n"
+
+clean_all_data: clean_raw_data clean_data
+	@printf "\033[1;31m🗑️ Removing all data...\033[0m\n"
+	@printf "\033[1;32m✅ Done.\033[0m\n"
 
 ## Delete all compiled Python files
 clean:
