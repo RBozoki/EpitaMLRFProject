@@ -38,7 +38,9 @@ raw_data:
 	@printf "\033[1;32m✅ Dataset ready.\033[0m\n"
 
 clean_raw_data:
+	@printf "\033[1;31m🗑️ Removing raw data...\033[0m\n"
 	@rm -rf data/raw/cifar-10-batches-py
+	@printf "\033[1;32m✅ Done.\033[0m\n"
 
 ## Make Dataset
 data:
