@@ -27,11 +27,18 @@ requirements: test_environment
 
 ## Download raw data
 raw_data:
-	@echo "Downloading cifar-10 dataset..."
+	@printf "\033[1;34m📥 Downloading cifar-10 dataset...\033[0m\n"
 	@wget -P data/raw/ http://www.cs.toronto.edu/~kriz/cifar-10-python.tar.gz
-	@echo "Unpacking cifar-10 dataset..."
+	@printf "\033[1;32m📦 Unpacking cifar-10 dataset...\033[0m\n"
 	@tar -xzf data/raw/cifar-10-python.tar.gz -C data/raw/
-	@echo "Dataset ready."
+	@printf "\033[1;31m🗑️ Removing archive...\033[0m\n"
+	@rm data/raw/cifar-10-python.tar.gz
+	@printf "\033[1;33m🔁 Renaming file...\033[0m\n"
+	@mv data/raw/cifar-10-batches-py/test_batch data/raw/cifar-10-batches-py/data_batch_test
+	@printf "\033[1;32m✅ Dataset ready.\033[0m\n"
+
+clean_raw_data:
+	@rm -rf data/raw/cifar-10-batches-py
 
 ## Make Dataset
 data:
