@@ -5,6 +5,8 @@ A classifier for the CIFAR dataset.
 
 ## Commands :
 
+Les commandes disponibles peuvent être affichés dans le terminal grâce à la commande `make tldr`.
+
 Voici les commandes disponibles :
 
 | Commande        | Description                                                                                         |
