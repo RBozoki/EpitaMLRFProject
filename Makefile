@@ -20,6 +20,12 @@ endif
 # COMMANDS                                                                      #
 #################################################################################
 
+tldr:
+	@printf "\033[1;32m   - %s\033[0m\n      \033[1;31m%s\033[0m\n\n" "Télécharge le jeu de données." "make raw_data"
+	@printf "\033[1;32m   - %s\033[0m\n      \033[1;31m%s\033[0m\n\n" "Crée des fichiers csv à partir des données brutes." "make data"
+	@printf "\033[1;32m   - %s\033[0m\n      \033[1;31m%s\033[0m\n\n" "Crée des datasets contenant les features extraites." "make features"
+	@printf "\033[1;32m   - %s\033[0m\n      \033[1;31m%s\033[0m\n\n" "Entraine les modèles sur les features extraites et affiche les performances sur l'ensemble de test." "make test"
+
 ## Install Python Dependencies
 requirements: test_environment
 	$(PYTHON_INTERPRETER) -m pip install -U pip setuptools wheel
