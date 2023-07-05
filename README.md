@@ -1,7 +1,20 @@
 mlrfProject
 ==============================
 
-A classifier for the CIFAR dataset
+A classifier for the CIFAR dataset.
+
+## Commands :
+
+Les commandes disponibles peuvent être affichés dans le terminal grâce à la commande `make tldr`.
+
+Voici les commandes disponibles :
+
+| Commande        | Description                                                                                         |
+|-----------------|-----------------------------------------------------------------------------------------------------|
+| `make raw_data` | Télécharge le jeu de données.                                                                       |
+| `make data`     | Crée des fichiers csv à partir des données brutes.                                                  |
+| `make features` | Crée des datasets contenant les features extraites.                                                 |
+| `make test`     | Entraine les modèles sur les features extraites et affiche les performances sur l'ensemble de test. |
 
 Project Organization
 ------------

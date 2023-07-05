@@ -1,4 +1,3 @@
-
 import matplotlib
 import pandas as pd
 import numpy as np
@@ -7,6 +6,7 @@ import matplotlib
 matplotlib.use('TkAgg')
 import ast
 
+"""
 df = pd.read_csv("../../data/processed/data_batch_1.csv")
 
 first_image = df.iloc[1]["data"]
@@ -68,9 +68,14 @@ df["hog_descriptor"] = hog_descriptors
 # Afficher les premières lignes du DataFrame pour vérifier
 print(df.head())
 #%%
+"""
 import glob
+import os
+from tqdm import tqdm
+import cv2
+from skimage.feature import hog
 
-data_files = glob.glob("../../data/processed/data_batch_*.csv")
+data_files = glob.glob("data/processed/data_batch_*.csv")
 
 # Bouclez sur tous les fichiers trouvés
 for file_path in data_files:
@@ -92,7 +97,9 @@ for file_path in data_files:
     df["hog_descriptor"] = hog_descriptors
 
     # Créer un nouveau chemin de fichier pour sauvegarder les données prétraitées
-    new_file_path = file_path.replace("processed", "interim")
+    new_file_path = file_path.replace("processed", "interim/hog")
+
+    os.makedirs(os.path.dirname(new_file_path), exist_ok=True)
 
     # Enregistrez le DataFrame dans le nouveau fichier
     df.to_csv(new_file_path, index=False)
