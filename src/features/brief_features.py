@@ -5,7 +5,6 @@ import ast
 import cv2
 import numpy as np
 from tqdm import tqdm
-from skimage import exposure
 
 # Initialisation du détecteur de points clés FAST et du descripteur BRIEF
 fast = cv2.FastFeatureDetector_create()
