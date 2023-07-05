@@ -7,6 +7,7 @@ import matplotlib
 matplotlib.use('TkAgg')
 import ast
 
+"""
 df = pd.read_csv("../../data/processed/data_batch_1.csv")
 
 first_image = df.iloc[1]["data"]
@@ -68,8 +69,12 @@ df["hog_descriptor"] = hog_descriptors
 # Afficher les premières lignes du DataFrame pour vérifier
 print(df.head())
 #%%
+"""
 import glob
 import os
+from tqdm import tqdm
+import cv2
+from skimage.feature import hog
 
 data_files = glob.glob("../../data/processed/data_batch_*.csv")
 
