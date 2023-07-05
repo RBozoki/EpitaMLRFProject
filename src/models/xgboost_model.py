@@ -11,7 +11,8 @@ f1_scores = {}
 
 # Les sous-dossiers pour lesquels nous allons former et tester le modèle
 #subfolders = ['hog', 'brief', 'flat']
-subfolders = ['hog', 'brief', 'sift']
+#subfolders = ['hog', 'brief', 'sift']
+subfolders = ['hog', 'brief']
 
 for subfolder in subfolders:
     print(f"Training and testing model for {subfolder} data...")
@@ -39,7 +40,11 @@ for subfolder in subfolders:
             descriptors.append(descriptor)
             labels.append(df.iloc[i]["labels"])
 
-    # Convertir les listes en np.array
+    # Normaliser les longueurs des descripteurs
+    max_len = max(len(d) for d in descriptors)
+    descriptors = [d + [0]*(max_len-len(d)) for d in descriptors]
+
+# Convertir les listes en np.array
     descriptors = np.array(descriptors)
     labels = np.array(labels)
 
