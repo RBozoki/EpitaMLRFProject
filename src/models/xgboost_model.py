@@ -30,7 +30,13 @@ for subfolder in subfolders:
     for file_path in data_files:
         df = pd.read_csv(file_path)
         for i in range(df.shape[0]):
-            descriptor = ast.literal_eval(df.iloc[i]["descriptor"])
+            # Sélectionner le bon descripteur en fonction du type de données
+            if subfolder == 'hog':
+                descriptor = ast.literal_eval(df.iloc[i]["hog_descriptor"])
+            elif subfolder == 'brief':
+                descriptor = ast.literal_eval(df.iloc[i]["brief_descriptor"])
+            elif subfolder == 'flat':
+                descriptor = df.filter(regex=("pixel_.*")).iloc[i].values.tolist()
             descriptors.append(descriptor)
             labels.append(df.iloc[i]["labels"])
 
@@ -47,7 +53,13 @@ for subfolder in subfolders:
     descriptors_test = []
     labels_test = []
     for i in range(df_test.shape[0]):
-        descriptor = ast.literal_eval(df_test.iloc[i]["descriptor"])
+        # Sélectionner le bon descripteur en fonction du type de données
+        if subfolder == 'hog':
+            descriptor = ast.literal_eval(df_test.iloc[i]["hog_descriptor"])
+        elif subfolder == 'brief':
+            descriptor = ast.literal_eval(df_test.iloc[i]["brief_descriptor"])
+        elif subfolder == 'flat':
+            descriptor = df_test.filter(regex=("pixel_.*")).iloc[i].values.tolist()
         descriptors_test.append(descriptor)
         labels_test.append(df_test.iloc[i]["labels"])
 
