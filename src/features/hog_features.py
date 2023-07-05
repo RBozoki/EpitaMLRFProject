@@ -1,4 +1,3 @@
-
 import matplotlib
 import pandas as pd
 import numpy as np
@@ -76,7 +75,7 @@ from tqdm import tqdm
 import cv2
 from skimage.feature import hog
 
-data_files = glob.glob("../../data/processed/data_batch_*.csv")
+data_files = glob.glob("data/processed/data_batch_*.csv")
 
 # Bouclez sur tous les fichiers trouvés
 for file_path in data_files:

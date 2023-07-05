@@ -65,6 +65,11 @@ clean_all_data: clean_raw_data clean_data
 	@printf "\033[1;31m🗑️ Removing all data...\033[0m\n"
 	@printf "\033[1;32m✅ Done.\033[0m\n"
 
+hog:
+	@printf "\033[1;33m🔁 Extracting features...\033[0m\n"
+	$(PYTHON_INTERPRETER) src/features/hog_features.py
+	@printf "\033[1;32m✅ Done.\033[0m\n"
+
 ## Delete all compiled Python files
 clean:
 	find . -type f -name "*.py[co]" -delete
