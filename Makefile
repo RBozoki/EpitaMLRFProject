@@ -86,6 +86,12 @@ flat:
 	$(PYTHON_INTERPRETER) src/features/flat_vector.py
 	@printf "\033[1;32m✅ Done.\033[0m\n"
 
+## Train and test xgboost on data
+xgboost:
+	@printf "\033[1;33m🔁 Training and testing XgBoost...\033[0m\n"
+	$(PYTHON_INTERPRETER) src/models/xgboost_model.py
+	@printf "\033[1;32m✅ Done.\033[0m\n"
+
 ## Delete all compiled Python files
 clean:
 	find . -type f -name "*.py[co]" -delete
