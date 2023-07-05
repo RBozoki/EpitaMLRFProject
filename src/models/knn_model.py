@@ -9,7 +9,7 @@ from sklearn.metrics import accuracy_score, f1_score
 accuracies = {}
 f1_scores = {}
 
-subfolders = ['hog', 'brief']
+subfolders = ['hog', 'lbp']
 
 for subfolder in subfolders:
     print(f"Training and testing model for {subfolder} data...")
@@ -24,8 +24,8 @@ for subfolder in subfolders:
         for i in range(df.shape[0]):
             if subfolder == 'hog':
                 descriptor = ast.literal_eval(df.iloc[i]["hog_descriptor"])
-            elif subfolder == 'brief':
-                descriptor = ast.literal_eval(df.iloc[i]["brief_descriptor"])
+            elif subfolder == 'lbp':
+                descriptor = ast.literal_eval(df.iloc[i]["lbp_descriptor"])
             descriptors.append(descriptor)
             labels.append(df.iloc[i]["labels"])
 
@@ -45,8 +45,8 @@ for subfolder in subfolders:
     for i in range(df_test.shape[0]):
         if subfolder == 'hog':
             descriptor = ast.literal_eval(df_test.iloc[i]["hog_descriptor"])
-        elif subfolder == 'brief':
-            descriptor = ast.literal_eval(df_test.iloc[i]["brief_descriptor"])
+        elif subfolder == 'lbp':
+            descriptor = ast.literal_eval(df_test.iloc[i]["lbp_descriptor"])
         descriptors_test.append(descriptor)
         labels_test.append(df_test.iloc[i]["labels"])
 

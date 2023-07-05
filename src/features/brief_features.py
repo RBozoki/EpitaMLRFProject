@@ -7,8 +7,8 @@ import numpy as np
 from tqdm import tqdm
 
 # Initialisation du détecteur de points clés FAST et du descripteur BRIEF
-fast = cv2.FastFeatureDetector_create()
-brief = cv2.xfeatures2d.BriefDescriptorExtractor_create()
+fast = cv2.FastFeatureDetector_create(threshold=50, nonmaxSuppression=True)
+brief = cv2.xfeatures2d.BriefDescriptorExtractor_create(bytes=32)
 
 data_files = glob.glob("data/processed/data_batch_*.csv")
 

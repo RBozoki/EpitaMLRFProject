@@ -91,6 +91,11 @@ sift:
 	$(PYTHON_INTERPRETER) src/features/sift_features.py
 	@printf "\033[1;32m✅ Done.\033[0m\n"
 
+lbp:
+	@printf "\033[1;33m🔁 Extracting lbp features...\033[0m\n"
+	$(PYTHON_INTERPRETER) src/features/lbp_features.py
+	@printf "\033[1;32m✅ Done.\033[0m\n"
+
 ## Train and test xgboost on data
 xgboost:
 	@printf "\033[1;33m🔁 Training and testing XgBoost...\033[0m\n"
@@ -125,6 +130,11 @@ clean_flat:
 clean_sift:
 	@printf "\033[1;31m🗑️ Removing sift data...\033[0m\n"
 	@rm data/interim/sift/data_batch_*.csv
+	@printf "\033[1;32m✅ Done.\033[0m\n"
+
+clean_lbp:
+	@printf "\033[1;31m🗑️ Removing lbp data...\033[0m\n"
+	@rm data/interim/lbp/data_batch_*.csv
 	@printf "\033[1;32m✅ Done.\033[0m\n"
 
 
