@@ -80,6 +80,12 @@ brief:
 	$(PYTHON_INTERPRETER) src/features/brief_features.py
 	@printf "\033[1;32m✅ Done.\033[0m\n"
 
+## Generate datasets with flat vectors
+flat:
+	@printf "\033[1;33m🔁 Generating flat vectors...\033[0m\n"
+	$(PYTHON_INTERPRETER) src/features/flat_vector.py
+	@printf "\033[1;32m✅ Done.\033[0m\n"
+
 ## Delete all compiled Python files
 clean:
 	find . -type f -name "*.py[co]" -delete
