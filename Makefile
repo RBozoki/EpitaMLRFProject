@@ -23,7 +23,7 @@ endif
 tldr:
 	@printf "\033[1;32m   - %s\033[0m\n      \033[1;31m%s\033[0m\n\n" "Télécharge le jeu de données." "make raw_data"
 	@printf "\033[1;32m   - %s\033[0m\n      \033[1;31m%s\033[0m\n\n" "Crée des fichiers csv à partir des données brutes." "make data"
-	@printf "\033[1;32m   - %s\033[0m\n      \033[1;31m%s\033[0m\n\n" "Crée des datasets contenant les features extraites." "make features"
+	@printf "\033[1;32m   - %s\033[0m\n      \033[1;31m%s\033[0m\n\n" "Crée des datasets contenant les features extraites." "make {hog|brief}"
 	@printf "\033[1;32m   - %s\033[0m\n      \033[1;31m%s\033[0m\n\n" "Entraine les modèles sur les features extraites et affiche les performances sur l'ensemble de test." "make test"
 
 ## Install Python Dependencies
@@ -43,6 +43,7 @@ raw_data:
 	@mv data/raw/cifar-10-batches-py/test_batch data/raw/cifar-10-batches-py/data_batch_test
 	@printf "\033[1;32m✅ Dataset ready.\033[0m\n"
 
+## Delete raw data
 clean_raw_data:
 	@printf "\033[1;31m🗑️ Removing raw data...\033[0m\n"
 	@rm -rf data/raw/cifar-10-batches-py
@@ -56,6 +57,7 @@ data:
 	@mv data/processed/data_batch_0.csv data/processed/data_batch_test.csv
 	@printf "\033[1;32m✅ Done.\033[0m\n"
 
+## Delete Dataset
 clean_data:
 	@printf "\033[1;31m🗑️ Removing data...\033[0m\n"
 	@rm data/processed/data_batch_*.csv
@@ -65,11 +67,13 @@ clean_all_data: clean_raw_data clean_data
 	@printf "\033[1;31m🗑️ Removing all data...\033[0m\n"
 	@printf "\033[1;32m✅ Done.\033[0m\n"
 
+## Generate datasets with hog descriptors
 hog:
 	@printf "\033[1;33m🔁 Extracting hog features...\033[0m\n"
 	$(PYTHON_INTERPRETER) src/features/hog_features.py
 	@printf "\033[1;32m✅ Done.\033[0m\n"
 
+## Generate datasets with brief descriptors
 brief:
 	@printf "\033[1;33m🔁 Extracting brief features...\033[0m\n"
 	$(PYTHON_INTERPRETER) src/features/brief_features.py
