@@ -12,7 +12,7 @@ f1_scores = {}
 # Les sous-dossiers pour lesquels nous allons former et tester le modèle
 #subfolders = ['hog', 'brief', 'flat']
 #subfolders = ['hog', 'brief', 'sift']
-subfolders = ['hog', 'brief']
+subfolders = ['hog', 'lbp']
 
 for subfolder in subfolders:
     print(f"Training and testing model for {subfolder} data...")
@@ -31,8 +31,8 @@ for subfolder in subfolders:
             # Sélectionner le bon descripteur en fonction du type de données
             if subfolder == 'hog':
                 descriptor = ast.literal_eval(df.iloc[i]["hog_descriptor"])
-            elif subfolder == 'brief':
-                descriptor = ast.literal_eval(df.iloc[i]["brief_descriptor"])
+            elif subfolder == 'lbp':
+                descriptor = ast.literal_eval(df.iloc[i]["lbp_descriptor"])
             elif subfolder == 'sift':
                 descriptor = ast.literal_eval(df.iloc[i]["sift_descriptor"])
             elif subfolder == 'flat':
@@ -61,8 +61,8 @@ for subfolder in subfolders:
         # Sélectionner le bon descripteur en fonction du type de données
         if subfolder == 'hog':
             descriptor = ast.literal_eval(df_test.iloc[i]["hog_descriptor"])
-        elif subfolder == 'brief':
-            descriptor = ast.literal_eval(df_test.iloc[i]["brief_descriptor"])
+        elif subfolder == 'lbp':
+            descriptor = ast.literal_eval(df_test.iloc[i]["lbp_descriptor"])
         elif subfolder == 'sift':
             descriptor = ast.literal_eval(df_test.iloc[i]["sift_descriptor"])
         elif subfolder == 'flat':
