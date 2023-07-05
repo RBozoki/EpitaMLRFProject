@@ -13,8 +13,8 @@ Voici les commandes disponibles :
 |-----------------|-----------------------------------------------------------------------------------------------------|
 | `make raw_data` | Télécharge le jeu de données.                                                                       |
 | `make data`     | Crée des fichiers csv à partir des données brutes.                                                  |
-| `make {hog|brief}` | Crée des datasets contenant les features extraites.                                                 |
-| `make {knn|log_reg|xgboost}`     | Entraine les modèles sur les features extraites et affiche les performances sur l'ensemble de test. |
+| `make {hog/brief}` | Crée des datasets contenant les features extraites.                                                 |
+| `make {knn/log_reg/xgboost}`     | Entraine les modèles sur les features extraites et affiche les performances sur l'ensemble de test. |
 
 Project Organization
 ------------
