@@ -97,6 +97,16 @@ xgboost:
 	$(PYTHON_INTERPRETER) src/models/xgboost_model.py
 	@printf "\033[1;32m✅ Done.\033[0m\n"
 
+log_reg:
+	@printf "\033[1;33m🔁 Training and testing LogReg...\033[0m\n"
+	$(PYTHON_INTERPRETER) src/models/rl_model.py
+	@printf "\033[1;32m✅ Done.\033[0m\n"
+
+knn:
+	@printf "\033[1;33m🔁 Training and testing kNN...\033[0m\n"
+	$(PYTHON_INTERPRETER) src/models/knn_model.py
+	@printf "\033[1;32m✅ Done.\033[0m\n"
+
 clean_hog:
 	@printf "\033[1;31m🗑️ Removing hog data...\033[0m\n"
 	@rm data/interim/hog/data_batch_*.csv

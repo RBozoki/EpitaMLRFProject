@@ -3,85 +3,65 @@ import glob
 
 import numpy as np
 import pandas as pd
-import seaborn as sns
-import matplotlib.pyplot as plt
-import matplotlib
-matplotlib.use('TkAgg')
 from sklearn.neighbors import KNeighborsClassifier
-from sklearn.metrics import accuracy_score, confusion_matrix
+from sklearn.metrics import accuracy_score, f1_score
 
-# Trouver tous les fichiers correspondant à 'data_batch_*.csv' sauf 'data_batch_test.csv'
-data_files = [f for f in glob.glob("../../data/interim/data_batch_*.csv") if "test" not in f]
+accuracies = {}
+f1_scores = {}
 
-# initialiser des listes vides pour stocker les descripteurs HOG et les étiquettes
-hog_descriptors = []
-labels = []
+subfolders = ['hog', 'brief']
 
-# boucler sur tous les fichiers trouvés
-for file_path in data_files:
-    df = pd.read_csv(file_path)
-    for i in range(df.shape[0]):
-        hog_descriptor = ast.literal_eval(df.iloc[i]["hog_descriptor"])
-        hog_descriptors.append(hog_descriptor)
-        labels.append(df.iloc[i]["labels"])
+for subfolder in subfolders:
+    print(f"Training and testing model for {subfolder} data...")
 
-# Convertir les listes en np.array
-hog_descriptors = np.array(hog_descriptors)
-labels = np.array(labels)
+    data_files = [f for f in glob.glob(f"data/interim/{subfolder}/data_batch_*.csv") if "test" not in f]
 
-# Initialiser et entrainer le modèle kNN
-knn = KNeighborsClassifier(n_neighbors=80)
-knn.fit(hog_descriptors, labels)
+    descriptors = []
+    labels = []
 
-# Charger le fichier data_batch_test.csv
-df_test = pd.read_csv("../../data/interim/data_batch_test.csv")
-hog_descriptors_test = []
-labels_test = []
-for i in range(df_test.shape[0]):
-    hog_descriptor = ast.literal_eval(df_test.iloc[i]["hog_descriptor"])
-    hog_descriptors_test.append(hog_descriptor)
-    labels_test.append(df_test.iloc[i]["labels"])
+    for file_path in data_files:
+        df = pd.read_csv(file_path)
+        for i in range(df.shape[0]):
+            if subfolder == 'hog':
+                descriptor = ast.literal_eval(df.iloc[i]["hog_descriptor"])
+            elif subfolder == 'brief':
+                descriptor = ast.literal_eval(df.iloc[i]["brief_descriptor"])
+            descriptors.append(descriptor)
+            labels.append(df.iloc[i]["labels"])
 
-hog_descriptors_test = np.array(hog_descriptors_test)
-labels_test = np.array(labels_test)
+    max_len = max(len(d) for d in descriptors)
+    descriptors = [d + [0]*(max_len-len(d)) for d in descriptors]
 
-# Prédire sur l'ensemble de test
-y_pred = knn.predict(hog_descriptors_test)
+    descriptors = np.array(descriptors)
+    labels = np.array(labels)
 
-# Calculer la précision
-accuracy = accuracy_score(labels_test, y_pred)
-print(f"La précision du modèle kNN est : {accuracy}")
+    print("Training...")
+    knn = KNeighborsClassifier(n_neighbors=5)
+    knn.fit(descriptors, labels)
 
+    df_test = pd.read_csv(f"data/interim/{subfolder}/data_batch_test.csv")
+    descriptors_test = []
+    labels_test = []
+    for i in range(df_test.shape[0]):
+        if subfolder == 'hog':
+            descriptor = ast.literal_eval(df_test.iloc[i]["hog_descriptor"])
+        elif subfolder == 'brief':
+            descriptor = ast.literal_eval(df_test.iloc[i]["brief_descriptor"])
+        descriptors_test.append(descriptor)
+        labels_test.append(df_test.iloc[i]["labels"])
 
-import matplotlib.pyplot as plt
-import matplotlib
-matplotlib.use('TkAgg')
+    descriptors_test = np.array(descriptors_test)
+    labels_test = np.array(labels_test)
 
-print("hello")
-cm = confusion_matrix(labels_test, y_pred)
+    print("Testing...")
+    y_pred = knn.predict(descriptors_test)
 
-# Convertir la matrice de confusion en pourcentages
-cm_percentage = cm / np.sum(cm, axis=1)[:, np.newaxis]
+    accuracy = accuracy_score(labels_test, y_pred)
+    f1 = f1_score(labels_test, y_pred, average='weighted')
+    accuracies[subfolder] = accuracy
+    f1_scores[subfolder] = f1
 
-# Afficher la matrice de confusion en pourcentages
-plt.figure(figsize=(10, 10))
-sns.heatmap(cm_percentage, annot=True, fmt=".2f", cmap='Blues')
-plt.title('Matrice de confusion en pourcentage')
-plt.ylabel('Vraie classe')
-plt.xlabel('Classe prédite')
-plt.show()
-#%%
-
-
-# Liste des valeurs de k pour lesquelles nous voulons tester la performance
-k_values = [1, 3, 5, 7, 10, 15, 20, 30, 40, 80, 200]
-accuracy_scores = [0.2323, 0.2375, 0.2647, 0.272, 0.2872, 0.2999, 0.3051, 0.3089, 0.3132, 0.315, 0.3009]
-
-# Tracer l'accuracy en fonction de k
-plt.plot(k_values, accuracy_scores)
-plt.ylim([0, 0.5])
-plt.xlabel('Nombre de voisins (k)')
-plt.ylabel('Accuracy')
-plt.title('Accuracy en fonction de k pour le modèle k-NN')
-plt.show()
-#%%
+print("\nPrécisions et scores F1 des modèles KNN :\n")
+print("{:<10} {:<10} {:<10}".format('Data', 'Accuracy', 'F1 Score'))
+for k in accuracies.keys():
+    print("{:<10} {:<10.2f} {:<10.2f}".format(k, accuracies[k], f1_scores[k]))
