@@ -20,6 +20,7 @@ endif
 # COMMANDS                                                                      #
 #################################################################################
 
+## Commands reminder
 tldr:
 	@printf "\033[1;32m   - %s\033[0m\n      \033[1;31m%s\033[0m\n\n" "Télécharge le jeu de données." "make raw_data"
 	@printf "\033[1;32m   - %s\033[0m\n      \033[1;31m%s\033[0m\n\n" "Crée des fichiers csv à partir des données brutes." "make data"
