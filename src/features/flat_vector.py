@@ -24,7 +24,7 @@ for file_path in data_files:
     df = pd.concat([df, df_pixels], axis=1)
 
     # Créer un nouveau chemin de fichier pour sauvegarder les données prétraitées
-    new_file_path = file_path.replace("processed", "interim/pixels")
+    new_file_path = file_path.replace("processed", "interim/flat")
 
     os.makedirs(os.path.dirname(new_file_path), exist_ok=True)
 
