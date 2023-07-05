@@ -4,14 +4,10 @@ import xgboost as xgb
 
 import numpy as np
 import pandas as pd
-import seaborn as sns
-import matplotlib.pyplot as plt
-import matplotlib
-from sklearn.metrics import accuracy_score, confusion_matrix
-
-matplotlib.use('TkAgg')
+from sklearn.metrics import accuracy_score, f1_score
 
 accuracies = {}
+f1_scores = {}
 
 # Les sous-dossiers pour lesquels nous allons former et tester le modèle
 #subfolders = ['hog', 'brief', 'flat']
@@ -78,9 +74,11 @@ for subfolder in subfolders:
 
     # Calculer la précision
     accuracy = accuracy_score(labels_test, y_pred)
+    f1 = f1_score(labels_test, y_pred, average='weighted')  # Calculer le score F1
     accuracies[subfolder] = accuracy
+    f1_scores[subfolder] = f1
 
-print("\nPrécisions des modèles XGBoost :\n")
-print("{:<10} {:<10}".format('Data', 'Accuracy'))
-for k, v in accuracies.items():
-    print("{:<10} {:<10.2f}".format(k, v))
+print("\nPrécisions et scores F1 des modèles XGBoost :\n")
+print("{:<10} {:<10} {:<10}".format('Data', 'Accuracy', 'F1 Score'))  # Ajouter une colonne pour le score F1
+for k in accuracies.keys():
+    print("{:<10} {:<10.2f} {:<10.2f}".format(k, accuracies[k], f1_scores[k]))
