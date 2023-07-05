@@ -52,6 +52,8 @@ clean_raw_data:
 data:
 	@printf "\033[1;32m📦 Creating datasets...\033[0m\n"
 	$(PYTHON_INTERPRETER) src/data/make_dataset.py data/raw/cifar-10-batches-py data/processed
+	@printf "\033[1;33m🔁 Renaming file...\033[0m\n"
+	@mv data/processed/data_batch
 	@printf "\033[1;32m✅ Done.\033[0m\n"
 
 clean_data:

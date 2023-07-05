@@ -69,6 +69,7 @@ df["hog_descriptor"] = hog_descriptors
 print(df.head())
 #%%
 import glob
+import os
 
 data_files = glob.glob("../../data/processed/data_batch_*.csv")
 
@@ -92,7 +93,9 @@ for file_path in data_files:
     df["hog_descriptor"] = hog_descriptors
 
     # Créer un nouveau chemin de fichier pour sauvegarder les données prétraitées
-    new_file_path = file_path.replace("processed", "interim")
+    new_file_path = file_path.replace("processed", "interim/hog")
+
+    os.makedirs(os.path.dirname(new_file_path), exist_ok=True)
 
     # Enregistrez le DataFrame dans le nouveau fichier
     df.to_csv(new_file_path, index=False)
