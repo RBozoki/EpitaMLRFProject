@@ -66,8 +66,13 @@ clean_all_data: clean_raw_data clean_data
 	@printf "\033[1;32m✅ Done.\033[0m\n"
 
 hog:
-	@printf "\033[1;33m🔁 Extracting features...\033[0m\n"
+	@printf "\033[1;33m🔁 Extracting hog features...\033[0m\n"
 	$(PYTHON_INTERPRETER) src/features/hog_features.py
+	@printf "\033[1;32m✅ Done.\033[0m\n"
+
+brief:
+	@printf "\033[1;33m🔁 Extracting brief features...\033[0m\n"
+	$(PYTHON_INTERPRETER) src/features/brief_features.py
 	@printf "\033[1;32m✅ Done.\033[0m\n"
 
 ## Delete all compiled Python files
