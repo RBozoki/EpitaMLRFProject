@@ -11,6 +11,8 @@ from sklearn.metrics import accuracy_score, confusion_matrix
 
 matplotlib.use('TkAgg')
 
+accuracies = {}
+
 # Les sous-dossiers pour lesquels nous allons former et tester le modèle
 subfolders = ['hog', 'brief', 'flat']
 
@@ -18,7 +20,7 @@ for subfolder in subfolders:
     print(f"Training and testing model for {subfolder} data...")
 
     # Trouver tous les fichiers correspondant à 'data_batch_*.csv' sauf 'data_batch_test.csv'
-    data_files = [f for f in glob.glob(f"../../data/interim/{subfolder}/data_batch_*.csv") if "test" not in f]
+    data_files = [f for f in glob.glob(f"data/interim/{subfolder}/data_batch_*.csv") if "test" not in f]
 
     # initialiser des listes vides pour stocker les descripteurs et les étiquettes
     descriptors = []
@@ -41,7 +43,7 @@ for subfolder in subfolders:
     xgb_model.fit(descriptors, labels)
 
     # Charger le fichier data_batch_test.csv
-    df_test = pd.read_csv(f"../../data/interim/{subfolder}/data_batch_test.csv")
+    df_test = pd.read_csv(f"data/interim/{subfolder}/data_batch_test.csv")
     descriptors_test = []
     labels_test = []
     for i in range(df_test.shape[0]):
@@ -57,17 +59,9 @@ for subfolder in subfolders:
 
     # Calculer la précision
     accuracy = accuracy_score(labels_test, y_pred)
-    print(f"La précision du modèle XGBoost pour {subfolder} data est : {accuracy}")
+    accuracies[subfolder] = accuracy
 
-    cm = confusion_matrix(labels_test, y_pred)
-
-    # Convertir la matrice de confusion en pourcentages
-    cm_percentage = cm / np.sum(cm, axis=1)[:, np.newaxis]
-
-    # Afficher la matrice de confusion en pourcentages
-    plt.figure(figsize=(10, 10))
-    sns.heatmap(cm_percentage, annot=True, fmt=".2f", cmap='Blues')
-    plt.title(f'Matrice de confusion en pourcentage pour {subfolder} data')
-    plt.ylabel('Vraie classe')
-    plt.xlabel('Classe prédite')
-    plt.show()
+print("\nPrécisions des modèles XGBoost :\n")
+print("{:<10} {:<10}".format('Data', 'Accuracy'))
+for k, v in accuracies.items():
+    print("{:<10} {:<10.2f}".format(k, v))
