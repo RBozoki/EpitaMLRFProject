@@ -92,6 +92,21 @@ xgboost:
 	$(PYTHON_INTERPRETER) src/models/xgboost_model.py
 	@printf "\033[1;32m✅ Done.\033[0m\n"
 
+clean_hog:
+	@printf "\033[1;31m🗑️ Removing hog data...\033[0m\n"
+	@rm data/interim/hog/data_batch_*.csv
+	@printf "\033[1;32m✅ Done.\033[0m\n"
+
+clean_brief:
+	@printf "\033[1;31m🗑️ Removing brief data...\033[0m\n"
+	@rm data/interim/brief/data_batch_*.csv
+	@printf "\033[1;32m✅ Done.\033[0m\n"
+
+clean_flat:
+	@printf "\033[1;31m🗑️ Removing flat data...\033[0m\n"
+	@rm data/interim/flat/data_batch_*.csv
+	@printf "\033[1;32m✅ Done.\033[0m\n"
+
 ## Delete all compiled Python files
 clean:
 	find . -type f -name "*.py[co]" -delete

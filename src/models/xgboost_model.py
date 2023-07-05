@@ -14,7 +14,8 @@ matplotlib.use('TkAgg')
 accuracies = {}
 
 # Les sous-dossiers pour lesquels nous allons former et tester le modèle
-subfolders = ['hog', 'brief', 'flat']
+#subfolders = ['hog', 'brief', 'flat']
+subfolders = ['hog', 'brief']
 
 for subfolder in subfolders:
     print(f"Training and testing model for {subfolder} data...")
@@ -45,6 +46,7 @@ for subfolder in subfolders:
     labels = np.array(labels)
 
     # Initialiser et entrainer le modèle XGBoost
+    print("Training...")
     xgb_model = xgb.XGBClassifier(objective="multi:softprob", random_state=42)
     xgb_model.fit(descriptors, labels)
 
@@ -67,6 +69,7 @@ for subfolder in subfolders:
     labels_test = np.array(labels_test)
 
     # Prédire sur l'ensemble de test
+    print("Testing...")
     y_pred = xgb_model.predict(descriptors_test)
 
     # Calculer la précision
