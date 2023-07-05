@@ -15,7 +15,7 @@ accuracies = {}
 
 # Les sous-dossiers pour lesquels nous allons former et tester le modèle
 #subfolders = ['hog', 'brief', 'flat']
-subfolders = ['hog', 'brief']
+subfolders = ['hog', 'brief', 'sift']
 
 for subfolder in subfolders:
     print(f"Training and testing model for {subfolder} data...")
@@ -36,6 +36,8 @@ for subfolder in subfolders:
                 descriptor = ast.literal_eval(df.iloc[i]["hog_descriptor"])
             elif subfolder == 'brief':
                 descriptor = ast.literal_eval(df.iloc[i]["brief_descriptor"])
+            elif subfolder == 'sift':
+                descriptor = ast.literal_eval(df.iloc[i]["sift_descriptor"])
             elif subfolder == 'flat':
                 descriptor = df.filter(regex=("pixel_.*")).iloc[i].values.tolist()
             descriptors.append(descriptor)
@@ -60,6 +62,8 @@ for subfolder in subfolders:
             descriptor = ast.literal_eval(df_test.iloc[i]["hog_descriptor"])
         elif subfolder == 'brief':
             descriptor = ast.literal_eval(df_test.iloc[i]["brief_descriptor"])
+        elif subfolder == 'sift':
+            descriptor = ast.literal_eval(df_test.iloc[i]["sift_descriptor"])
         elif subfolder == 'flat':
             descriptor = df_test.filter(regex=("pixel_.*")).iloc[i].values.tolist()
         descriptors_test.append(descriptor)

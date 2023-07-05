@@ -86,6 +86,11 @@ flat:
 	$(PYTHON_INTERPRETER) src/features/flat_vector.py
 	@printf "\033[1;32m✅ Done.\033[0m\n"
 
+sift:
+	@printf "\033[1;33m🔁 Extracting sift features...\033[0m\n"
+	$(PYTHON_INTERPRETER) src/features/sift_features.py
+	@printf "\033[1;32m✅ Done.\033[0m\n"
+
 ## Train and test xgboost on data
 xgboost:
 	@printf "\033[1;33m🔁 Training and testing XgBoost...\033[0m\n"
@@ -106,6 +111,12 @@ clean_flat:
 	@printf "\033[1;31m🗑️ Removing flat data...\033[0m\n"
 	@rm data/interim/flat/data_batch_*.csv
 	@printf "\033[1;32m✅ Done.\033[0m\n"
+
+clean_sift:
+	@printf "\033[1;31m🗑️ Removing sift data...\033[0m\n"
+	@rm data/interim/sift/data_batch_*.csv
+	@printf "\033[1;32m✅ Done.\033[0m\n"
+
 
 ## Delete all compiled Python files
 clean:
