@@ -137,6 +137,14 @@ clean_lbp:
 	@rm data/interim/lbp/data_batch_*.csv
 	@printf "\033[1;32m✅ Done.\033[0m\n"
 
+visualize:
+	$(PYTHON_INTERPRETER) src/visualization/visualize.py
+
+visualize_hog:
+	$(PYTHON_INTERPRETER) src/visualization/visualize_hog.py
+
+visualize_lbp:
+	$(PYTHON_INTERPRETER) src/visualization/visualize_lbp.py
 
 ## Delete all compiled Python files
 clean:
