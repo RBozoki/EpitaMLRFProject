@@ -6,13 +6,11 @@ import cv2
 import numpy as np
 from tqdm import tqdm
 
-# Initialisation du détecteur de points clés FAST et du descripteur BRIEF
 fast = cv2.FastFeatureDetector_create(threshold=50, nonmaxSuppression=True)
 brief = cv2.xfeatures2d.BriefDescriptorExtractor_create(bytes=32)
 
 data_files = glob.glob("data/processed/data_batch_*.csv")
 
-# Bouclez sur tous les fichiers trouvés
 for file_path in data_files:
     df = pd.read_csv(file_path)
 
@@ -25,29 +23,21 @@ for file_path in data_files:
         image = image.astype('uint8')
         image_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
-        # Detection de points clés avec FAST
         keypoints = fast.detect(image_gray, None)
 
-        # Extraction de descripteurs BRIEF
         keypoints, descriptor = brief.compute(image_gray, keypoints)
 
         if descriptor is not None:
-            # Les descripteurs sont renvoyés comme un tableau 2D,
-            # nous devons donc les aplatir en un tableau 1D
             descriptor = descriptor.flatten()
         else:
-            # Si aucun point clé n'est détecté, le descripteur sera None,
-            # donc nous devons créer un descripteur de zéros
             descriptor = np.zeros(brief.descriptorSize(), dtype=np.float32)
 
         brief_descriptors.append(descriptor.tolist())
 
     df["brief_descriptor"] = brief_descriptors
 
-    # Créer un nouveau chemin de fichier pour sauvegarder les données prétraitées
     new_file_path = file_path.replace("processed", "interim/brief")
 
     os.makedirs(os.path.dirname(new_file_path), exist_ok=True)
 
-    # Enregistrez le DataFrame dans le nouveau fichier
     df.to_csv(new_file_path, index=False)

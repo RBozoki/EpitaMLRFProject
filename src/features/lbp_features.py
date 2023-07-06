@@ -13,7 +13,6 @@ radius = 8
 
 data_files = glob.glob("data/processed/data_batch_*.csv")
 
-# Bouclez sur tous les fichiers trouvés
 for file_path in data_files:
     df = pd.read_csv(file_path)
 
@@ -26,11 +25,9 @@ for file_path in data_files:
         image = image.astype('uint8')
         image_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
-        # Extraction de descripteurs LBP
         lbp = feature.local_binary_pattern(image_gray, numPoints, radius, method="uniform")
         (hist, _) = np.histogram(lbp.ravel(), bins=np.arange(0, numPoints + 3), range=(0, numPoints + 2))
 
-        # Normalize the histogram
         hist = hist.astype("float")
         hist /= (hist.sum() + 1e-7)
 
@@ -38,10 +35,8 @@ for file_path in data_files:
 
     df["lbp_descriptor"] = lbp_descriptors
 
-    # Créer un nouveau chemin de fichier pour sauvegarder les données prétraitées
     new_file_path = file_path.replace("processed", "interim/lbp")
 
     os.makedirs(os.path.dirname(new_file_path), exist_ok=True)
 
-    # Enregistrez le DataFrame dans le nouveau fichier
     df.to_csv(new_file_path, index=False)
